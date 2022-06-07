@@ -1,0 +1,3 @@
+config:
+  infra:branch: main
+  infra:repo: mattstratton/fullstack-pulumi

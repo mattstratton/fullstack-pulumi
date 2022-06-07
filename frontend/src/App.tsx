@@ -1,6 +1,7 @@
 import { useState, useEffect, FormEvent, Component, ChangeEvent } from "react";
 import pulumipus from "./pulumipus.svg";
 import "./App.css";
+import { useAuth0 } from "@auth0/auth0-react";
 
 // Item defines the shape of a grocery-list item, which has a name, unique ID, and
 // a flag to indicate whether the item has been obtained.
@@ -9,6 +10,8 @@ interface Item {
     name: string;
     done: boolean;
 }
+
+const { isLoading,isAuthenticated,loginWithRedirect,logout } = useAuth0();
 
 class App extends Component {
 
@@ -84,7 +87,7 @@ class App extends Component {
     private get items() {
         return this.state.items;
     }
-
+    
     // Render the list and the new-item form.
     render() {
         return <div className="App">
@@ -92,6 +95,7 @@ class App extends Component {
                 <img src={pulumipus} className="App-logo" alt="logo" />
                 <h1>Pulumipus's Grocery List</h1>
             </header>
+            { !isLoading && isAuthenticated && <>
             { this.items.length > 0 && <p>{this.items.length} item{this.items.length !== 1 && "s"}:</p> }
             <ul>
                 { this.items.map((item, i) => <li key={i} className={item["done"] ? "done" : ""}>
@@ -104,6 +108,7 @@ class App extends Component {
                 <input type="text" value={this.state.newItem} onChange={this.onChange.bind(this)} placeholder="Add an item" size={100} maxLength={100} />
                 <button type="submit">+</button>
             </form>
+            </>}
         </div>;
     }
 }
