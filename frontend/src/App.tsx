@@ -95,6 +95,9 @@ class App extends Component {
                 <img src={pulumipus} className="App-logo" alt="logo" />
                 <h1>Pulumipus's Grocery List</h1>
             </header>
+            { !isLoading && !isAuthenticated && <>
+                <button onClick={() => loginWithRedirect()}>Log In</button>
+            </>}
             { !isLoading && isAuthenticated && <>
             { this.items.length > 0 && <p>{this.items.length} item{this.items.length !== 1 && "s"}:</p> }
             <ul>
@@ -108,6 +111,9 @@ class App extends Component {
                 <input type="text" value={this.state.newItem} onChange={this.onChange.bind(this)} placeholder="Add an item" size={100} maxLength={100} />
                 <button type="submit">+</button>
             </form>
+            <button onClick={() => logout({ returnTo: window.location.origin })}>
+                Log Out
+            </button>
             </>}
         </div>;
     }
